@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Store } from "redux";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IState {
+  checked: boolean;
+}
+interface IProps {
+  store: Store;
+}
+
+class App extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      checked: false
+    };
+  }
+
+  render() {
+    const { store } = this.props;
+    const onClick = () => store.dispatch({ type: "TOGGLE" });
+    return (
+      <div>
+        <h1>To-dos</h1>
+        <div>
+          Learn Redux&nbsp;
+          <input
+            type="checkbox"
+            checked={!!this.state.checked}
+            onClick={onClick}
+          />
+        </div>
+        {this.state.checked ? <h2>Done!</h2> : null}
+      </div>
+    );
+  }
 }
 
 export default App;
