@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from 'react-redux'
 import { createStore, Reducer, Store } from "redux";
 
 import App from "./App";
@@ -14,11 +15,13 @@ export interface IToggleAction {
 
 type ToggleActions = IToggleAction;
 
-interface IToggleState {
+export interface IToggleState {
   readonly checked: boolean;
+  readonly appName: string
+  readonly articles: String[] 
 }
 
-const defaultState: IToggleState = { checked: false };
+const defaultState: IToggleState = { checked: false, appName: 'conduit', articles: []};
 
 const reducer: Reducer<IToggleState, ToggleActions> = function(
   state = defaultState,
@@ -35,4 +38,4 @@ const reducer: Reducer<IToggleState, ToggleActions> = function(
 
 const store: Store<IToggleState, any> = createStore(reducer, undefined);
 
-ReactDOM.render(<App store={store} />, document.getElementById("root"));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById("root"));

@@ -1,39 +1,34 @@
 import React from "react";
-import { Store } from "redux";
+import { connect } from 'react-redux'
 
-interface IState {
-  checked: boolean;
-}
-interface IProps {
-  store: Store;
+import { IToggleState } from './index'
+import Header from './components/Header'
+import Home from "./components/Home"
+
+interface StateProps {
+  appName: string
 }
 
-class App extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      checked: false
-    };
-  }
+interface OwnProps {
+
+}
+
+type IProps  = StateProps & OwnProps
+
+class App extends React.Component<IProps, {}> {
 
   render() {
-    const { store } = this.props;
-    const onClick = () => store.dispatch({ type: "TOGGLE" });
     return (
       <div>
-        <h1>To-dos</h1>
-        <div>
-          Learn Redux&nbsp;
-          <input
-            type="checkbox"
-            checked={!!this.state.checked}
-            onClick={onClick}
-          />
-        </div>
-        {this.state.checked ? <h2>Done!</h2> : null}
+        <Header appName={this.props.appName} />
+        <Home />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state: IToggleState) => ({
+    appName: state.appName
+})
+
+export default connect(mapStateToProps)(App)
